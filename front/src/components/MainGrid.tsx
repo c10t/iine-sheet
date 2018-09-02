@@ -2,14 +2,17 @@
 import { createStyles } from "@material-ui/core";
 import { withStyles, WithStyles } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
+
 // import {Grid, GridOptions} from "ag-grid/main";
 import { AgGridReact } from "ag-grid-react";
+
 import "ag-grid/dist/styles/ag-grid.css";
 import "ag-grid/dist/styles/ag-theme-balham.css";
+
 import * as React from "react";
 
 const styles = createStyles({
-  AgThemeBalham: {
+  agThemeBalham: {
     height: '500px',
     width: '600px'
   },
@@ -38,12 +41,18 @@ class MainGrid extends React.Component<IMainGridProps & WithStyles<ClassNames>,
         {headerName: "Model", field: "model"},
         {headerName: "Price", field: "price"}
       ],
-      rowData: [
-        {make: "Toyota", model: "Celica", price: 35000},
-        {make: "Ford", model: "Mondeo", price: 32000},
-        {make: "Porsche", model: "Boxter", price: 72000}
-      ]
+      rowData: []
     }
+  }
+
+  public componentDidMount() {
+    const rowData = [
+      {make: "Toyota", model: "Celica", price: 35000},
+      {make: "Ford", model: "Mondeo", price: 32000},
+      {make: "Porsche", model: "Boxter", price: 72000}
+    ]
+
+    this.setState({rowData});
   }
 
   public render() {
@@ -51,8 +60,10 @@ class MainGrid extends React.Component<IMainGridProps & WithStyles<ClassNames>,
     return (
       <div className={classes.root}>
         <Paper className={classes.paper}>
-          <div className={classes.AgThemeBalham}>
+          <div className={"ag-theme-balham " + classes.agThemeBalham}>
             <AgGridReact
+              enableSorting={true}
+              enableFilter={true}
               columnDefs={this.state.columnDefs}
               rowData={this.state.rowData}
             />
